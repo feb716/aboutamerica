@@ -67,8 +67,8 @@ module.exports = async (req, res) => {
             <style>
                 body { 
                     font-family: 'Roboto', sans-serif; 
-                    background-color: #000000; /* <--- PERBAIKAN: Berubah dari #f4f7f9 menjadi Hitam Solid (#000000) */
-                    color: #333;
+                    background-color: #000000; /* HITAM: Latar belakang seluruh halaman */
+                    color: #ffffff; /* PUTIH: Warna teks default (seperti footer) */
                     line-height: 1.6;
                     margin: 0;
                     padding: 0;
@@ -78,11 +78,11 @@ module.exports = async (req, res) => {
                     margin: 0 auto; 
                     padding: 20px;
                     padding-bottom: 30px; 
-                    background-color: #fff;
-                    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                    background-color: #000000; /* HITAM: Latar belakang di sekitar kartu berita */
+                    box-shadow: 0 0 10px rgba(255,255,255,0.1); 
                 }
                 header {
-                    background-image: url('/uslogo.jpg'); 
+                    background-image: url('/uslogo.jpg'); /* GAMBAR BENDERA */
                     background-size: cover; 
                     background-position: center; 
                     color: white;
@@ -112,17 +112,17 @@ module.exports = async (req, res) => {
                     text-shadow: 2px 2px 4px rgba(0,0,0,0.7); 
                 }
                 .item { 
-                    border: 1px solid #e0e0e0; 
+                    border: 1px solid #333333; 
                     padding: 15px; 
                     margin-bottom: 25px; 
                     border-radius: 8px; 
                     display: flex; 
                     gap: 15px; 
-                    background-color: #ffffff;
+                    background-color: #ffffff; /* Kartu berita tetap putih */
                     transition: box-shadow 0.3s ease;
                 }
                 .item:hover {
-                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15); 
                 }
                 .item h3 { margin-top: 0; margin-bottom: 5px; } 
                 .item h3 a { 
@@ -161,9 +161,9 @@ module.exports = async (req, res) => {
                     text-align: center;
                     padding: 20px 0;
                     margin-top: 30px;
-                    border-top: 1px solid #ccc;
+                    border-top: 1px solid #555; 
                     font-size: 0.8em;
-                    color: #999;
+                    color: #cccccc; 
                 }
             </style>
         </head>
