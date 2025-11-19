@@ -9,7 +9,7 @@ const parser = new Parser({
     headers: { 'User-Agent': 'Custom US News Aggregator Bot' }
 });
 
-// DAPTAR SUMBER BERITA US AYEUNA (HANYA NU STABIL GAMBARNA)
+// DAPTAR SUMBER BERITA US AYEUNA (Fox US, NYT)
 const RSS_FEEDS = [
     { title: 'Fox News - Paling Populer (US)', url: 'https://feeds.foxnews.com/foxnews/most-popular' },
     { title: 'The New York Times - Berita Utama', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml' } 
@@ -81,7 +81,7 @@ module.exports = async (req, res) => {
                     box-shadow: 0 0 10px rgba(0,0,0,0.1);
                 }
                 header {
-                    background-color: #004d99; /* Warna biru profesional */
+                    background-color: #004d99; 
                     color: white;
                     padding: 20px 0;
                     margin-bottom: 20px;
@@ -92,13 +92,7 @@ module.exports = async (req, res) => {
                     font-size: 2.5em;
                     font-weight: 700;
                 }
-                .status-info {
-                    font-size: 0.85em;
-                    color: #555;
-                    margin-bottom: 20px;
-                    border-bottom: 1px solid #eee;
-                    padding-bottom: 10px;
-                }
+                /* Kelas status-info dihapus ti dieu */
                 .item { 
                     border: 1px solid #e0e0e0; 
                     padding: 15px; 
@@ -141,7 +135,6 @@ module.exports = async (req, res) => {
                 .text-content {
                     flex-grow: 1;
                 }
-                /* SLOT IKLAN DILEUNGITKEUN AYEUNA, TAPI TEMPATNA BISA DIPAKE KENGING DIV KOSONG KIEU: */
                 .ad-slot-placeholder {
                     text-align: center;
                     margin: 30px 0;
@@ -161,10 +154,6 @@ module.exports = async (req, res) => {
                 <h1>${siteTitle}</h1>
             </header>
             <div class="container">
-                <div class="status-info">
-                    Diperbarui otomatis ti ${RSS_FEEDS.length} sumber stabil. | Postingan di-cache 1 jam.
-                </div>
-                
                 <div class="ad-slot-placeholder">
                     </div>
                 `;
