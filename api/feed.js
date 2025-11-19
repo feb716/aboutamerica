@@ -17,57 +17,46 @@ const RSS_FEEDS = [
 
 // FUNGSI: Nyobaan milarian link gambar
 function findImage(item) {
-    // 1. Coba dina tag media:content
+    // Logika gambar anu paling agrésif (geus urang perbaiki)
     if (item['media:content'] && item['media:content']['$'] && item['media:content']['$'].url) {
         return item['media:content']['$'].url;
     }
-    // 2. Coba dina tag enclosure
     if (item.enclosure && item.enclosure.url) {
         return item.enclosure.url;
     }
-    
-    // 3. Coba tina deskripsi ATAWA content:encoded (nyari tag <img>)
     const contentToSearch = item['content:encoded'] || item.content || item.description || '';
-    
     if (contentToSearch) {
-        // Pake regex pikeun nyari tag <img>
         const imgMatch = contentToSearch.match(/<img[^>]+src="([^">]+)"/);
         if (imgMatch) {
             return imgMatch[1];
         }
     }
-    
-    return null; // Upami teu aya gambar anu kapanggih
+    return null;
 }
 
 
 module.exports = async (req, res) => {
     
     let allItems = [];
-    const siteTitle = 'Agregator Berita Utama US';
+    const siteTitle = 'US News Aggregator: Fox & NYT';
     
-    // Looping pikeun ngumpulkeun data tina sadaya Feed
     for (const feedConfig of RSS_FEEDS) {
         try {
             const feed = await parser.parseURL(feedConfig.url);
-            
-            // Tambihkeun 10 item terbaru tina unggal feed (Maksimal 20 total)
             const itemsToAdd = feed.items.slice(0, 10).map(item => ({
                 ...item,
                 source: feedConfig.title,
                 imageUrl: findImage(item) 
             }));
-            
             allItems.push(...itemsToAdd);
         } catch (error) {
             console.error(`Gagal memuat feed: ${feedConfig.title}`);
         }
     }
 
-    // Sortir sadaya item dumasar tanggal terbaru
     allItems.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate));
 
-    // Ngadamel Tampilan HTML
+    // Nyiapkeun Konten HTML
     let htmlContent = `
         <!DOCTYPE html>
         <html lang="id">
@@ -75,46 +64,123 @@ module.exports = async (req, res) => {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>${siteTitle}</title>
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
             <style>
-                body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-                h1 { border-bottom: 2px solid #eee; padding-bottom: 10px; }
+                body { 
+                    font-family: 'Roboto', sans-serif; 
+                    background-color: #f4f7f9; 
+                    color: #333;
+                    line-height: 1.6;
+                    margin: 0;
+                    padding: 0;
+                }
+                .container {
+                    max-width: 800px; 
+                    margin: 0 auto; 
+                    padding: 20px;
+                    background-color: #fff;
+                    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                }
+                header {
+                    background-color: #004d99; /* Warna biru profesional */
+                    color: white;
+                    padding: 20px 0;
+                    margin-bottom: 20px;
+                    text-align: center;
+                }
+                header h1 {
+                    margin: 0;
+                    font-size: 2.5em;
+                    font-weight: 700;
+                }
+                .status-info {
+                    font-size: 0.85em;
+                    color: #555;
+                    margin-bottom: 20px;
+                    border-bottom: 1px solid #eee;
+                    padding-bottom: 10px;
+                }
                 .item { 
-                    border: 1px solid #ddd; 
+                    border: 1px solid #e0e0e0; 
                     padding: 15px; 
-                    margin-bottom: 20px; 
-                    border-radius: 5px; 
+                    margin-bottom: 25px; 
+                    border-radius: 8px; 
                     display: flex; 
                     gap: 15px; 
+                    background-color: #ffffff;
+                    transition: box-shadow 0.3s ease;
                 }
-                .item h3 a { color: #0056b3; text-decoration: none; }
-                .source { font-size: 0.9em; color: #555; margin-top: 5px; }
+                .item:hover {
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                }
+                .item h3 { margin-top: 0; }
+                .item h3 a { 
+                    color: #004d99; 
+                    text-decoration: none; 
+                    font-weight: 700;
+                    font-size: 1.1em;
+                }
+                .item h3 a:hover {
+                    text-decoration: underline;
+                }
+                .source { 
+                    font-size: 0.85em; 
+                    color: #777; 
+                    margin-top: 8px; 
+                }
                 .image-container { 
                     flex-shrink: 0; 
-                    width: 120px; 
-                    height: 80px;
+                    width: 140px; /* Ukuran gambar dilegaan sakedik */
+                    height: 90px;
                 }
                 .image-container img {
                     width: 100%;
                     height: 100%;
                     object-fit: cover; 
-                    border-radius: 3px;
+                    border-radius: 5px;
                 }
                 .text-content {
                     flex-grow: 1;
                 }
+                .ad-slot {
+                    text-align: center;
+                    margin: 30px 0;
+                    padding: 15px;
+                    border: 2px dashed #ff4500; /* Warna oranyeu pikeun iklan */
+                    background-color: #fffaf0;
+                    font-size: 0.9em;
+                    color: #ff4500;
+                    font-weight: 700;
+                }
+                footer {
+                    text-align: center;
+                    padding: 20px 0;
+                    margin-top: 30px;
+                    border-top: 1px solid #ccc;
+                    font-size: 0.8em;
+                    color: #999;
+                }
             </style>
         </head>
         <body>
-            <h1>${siteTitle}</h1>
-            <p>Diperbarui otomatis ti ${RSS_FEEDS.length} sumber anu stabil gambarna.</p>
-            <p>Postingan di-cache 1 jam (cadangan aman 24 jam).</p>
-    `;
+            <header>
+                <h1>${siteTitle}</h1>
+            </header>
+            <div class="container">
+                <div class="status-info">
+                    Diperbarui otomatis ti ${RSS_FEEDS.length} sumber stabil. | Postingan di-cache 1 jam.
+                </div>
+                
+                <div class="ad-slot">
+                    SLOT IKLAN 1 (728x90 atanapi Auto) - GENTOS BARIS IEU KU KODE ADSENSE UNIT ANJEUN
+                </div>
+                `;
 
     // Looping pikeun nembongkeun sadaya konten
     if (allItems.length === 0) {
         htmlContent += '<p>Saat ini tidak ada berita yang dapat dimuat.</p>';
     } else {
-        allItems.forEach(item => {
+        allItems.forEach((item, index) => {
             // Nyiapkeun tag gambar upami link kapanggih
             const imageHtml = item.imageUrl 
                 ? `<div class="image-container"><img src="${item.imageUrl}" alt="${item.title}" loading="lazy"></div>` 
@@ -132,11 +198,24 @@ module.exports = async (req, res) => {
                     </div>
                 </div>
             `;
+            
+            // Masihan SLOT IKLAN di tengah daftar (Saatos 5 berita)
+            if (index === 4) {
+                 htmlContent += `
+                    <div class="ad-slot">
+                        SLOT IKLAN 2 (300x250 atanapi Auto) - GENTOS BARIS IEU KU KODE ADSENSE UNIT ANJEUN
+                    </div>
+                    `;
+            }
         });
     }
 
-    // Skrip Vercel Speed Insights 
+    // Tutup Div Container jeung Tambahkeun Footer
     htmlContent += `
+            </div> 
+            <footer>
+                &copy; ${new Date().getFullYear()} ${siteTitle}. Sumber berita disayogikeun ku Fox News sareng The New York Times.
+            </footer>
             <script src="/_vercel/insights/script.js" defer></script> 
         </body>
         </html>
