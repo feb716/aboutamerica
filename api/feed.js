@@ -2,17 +2,20 @@
 
 const Parser = require('rss-parser');
 const parser = new Parser({
+    // Set parser to handle media image namespaces
     customFields: {
         item: ['media:content', 'enclosure', 'content:encoded', 'description'] 
     },
     headers: { 'User-Agent': 'Custom US News Aggregator Bot' }
 });
 
+// US NEWS SOURCES (Fox US, NYT)
 const RSS_FEEDS = [
-    { title: 'Fox News - Paling Populer (US)', url: 'https://feeds.foxnews.com/foxnews/most-popular' },
-    { title: 'The New York Times - Berita Utama', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml' } 
+    { title: 'Fox News - Most Popular (US)', url: 'https://feeds.foxnews.com/foxnews/most-popular' },
+    { title: 'The New York Times - Homepage', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml' } 
 ];
 
+// Function: Attempt to find the image link
 function findImage(item) {
     if (item['media:content'] && item['media:content']['$'] && item['media:content']['$'].url) {
         return item['media:content']['$'].url;
@@ -46,16 +49,16 @@ module.exports = async (req, res) => {
             }));
             allItems.push(...itemsToAdd);
         } catch (error) {
-            console.error(`Gagal memuat feed: ${feedConfig.title}`);
+            console.error(`Failed to load feed: ${feedConfig.title}`);
         }
     }
 
     allItems.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate));
 
-    // Nyiapkeun Konten HTML
+    // Prepare HTML Content
     let htmlContent = `
         <!DOCTYPE html>
-        <html lang="id">
+        <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,7 +77,7 @@ module.exports = async (req, res) => {
                     max-width: 800px; 
                     margin: 0 auto; 
                     padding: 20px;
-                    padding-bottom: 80px; /* Dipertahankan pikeun scrollability */
+                    padding-bottom: 30px; /* Reduced padding-bottom to improve stability */
                     background-color: #fff;
                     box-shadow: 0 0 10px rgba(0,0,0,0.1);
                 }
@@ -108,7 +111,7 @@ module.exports = async (req, res) => {
                     color: #004d99; 
                     text-decoration: none; 
                     font-weight: 700;
-                    font-size: 1.0em; /* --- FONT SIZE LEUWIH LEUTIK (1.0em) --- */
+                    font-size: 0.95em; /* --- NEW SMALLEST FONT SIZE (0.95em) --- */
                 }
                 .item h3 a:hover {
                     text-decoration: underline;
@@ -156,9 +159,9 @@ module.exports = async (req, res) => {
                     </div>
                 `;
 
-    // Looping pikeun nembongkeun sadaya konten
+    // Loop to display all content
     if (allItems.length === 0) {
-        htmlContent += '<p>Saat ini tidak ada berita yang dapat dimuat.</p>';
+        htmlContent += '<p>Currently no news available to load.</p>';
     } else {
         allItems.forEach((item, index) => {
             const imageHtml = item.imageUrl 
@@ -171,8 +174,8 @@ module.exports = async (req, res) => {
                     <div class="text-content">
                         <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
                         <div class="source">
-                            Sumber: <strong>${item.source}</strong> | 
-                            Dipublikasikan: ${new Date(item.isoDate).toLocaleString('id-ID')}
+                            Source: <strong>${item.source}</strong> | 
+                            Published: ${new Date(item.isoDate).toLocaleString('en-US')}
                         </div>
                     </div>
                 </div>
@@ -187,18 +190,18 @@ module.exports = async (req, res) => {
         });
     }
 
-    // Tutup Div Container jeung Tambahkeun Footer
+    // Close Container Div and Add Footer
     htmlContent += `
             </div> 
             <footer>
-                &copy; ${new Date().getFullYear()} ${siteTitle}. Sumber berita disayogikeun ku Fox News sareng The New York Times.
+                &copy; ${new Date().getFullYear()} ${siteTitle}. News sources provided by Fox News and The New York Times.
             </footer>
             <script src="/_vercel/insights/script.js" defer></script> 
         </body>
         </html>
     `;
 
-    // Ngatur Header Cache Vercel
+    // Set Vercel Cache Headers
     const CACHE_HEADER = 'public, s-maxage=3600, stale-while-revalidate=86400';
 
     res.setHeader('Cache-Control', CACHE_HEADER);
