@@ -77,7 +77,7 @@ module.exports = async (req, res) => {
                     max-width: 800px; 
                     margin: 0 auto; 
                     padding: 20px;
-                    padding-bottom: 30px; /* Reduced padding-bottom to improve stability */
+                    padding-bottom: 30px; 
                     background-color: #fff;
                     box-shadow: 0 0 10px rgba(0,0,0,0.1);
                 }
@@ -111,7 +111,7 @@ module.exports = async (req, res) => {
                     color: #004d99; 
                     text-decoration: none; 
                     font-weight: 700;
-                    font-size: 0.95em; /* --- NEW SMALLEST FONT SIZE (0.95em) --- */
+                    font-size: 0.9em; /* --- NEW SMALLEST FONT SIZE (0.9em) --- */
                 }
                 .item h3 a:hover {
                     text-decoration: underline;
