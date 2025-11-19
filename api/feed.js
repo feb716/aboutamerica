@@ -62,7 +62,8 @@ module.exports = async (req, res) => {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>${siteTitle}</title>
+            <meta name="monetag" content="1b949bb2ec11c7b38b30da69aacf4401">
+			<title>${siteTitle}</title>
             <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
             <style>
                 body { 
@@ -230,7 +231,6 @@ module.exports = async (req, res) => {
 </script>
 <script type="text/javascript" src="//www.highperformanceformat.com/3d7839634dd1ac154d8b6c75e8900d36/invoke.js"></script>
 </html>
-<meta name="monetag" content="1b949bb2ec11c7b38b30da69aacf4401">
     `;
 
     // Set Vercel Cache Headers
