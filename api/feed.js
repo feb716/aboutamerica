@@ -2,20 +2,17 @@
 
 const Parser = require('rss-parser');
 const parser = new Parser({
-    // Set parser to handle media image namespaces
     customFields: {
         item: ['media:content', 'enclosure', 'content:encoded', 'description'] 
     },
     headers: { 'User-Agent': 'Custom US News Aggregator Bot' }
 });
 
-// US NEWS SOURCES (Fox US, NYT)
 const RSS_FEEDS = [
     { title: 'Fox News - Most Popular (US)', url: 'https://feeds.foxnews.com/foxnews/most-popular' },
     { title: 'The New York Times - Homepage', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml' } 
 ];
 
-// Function: Attempt to find the image link
 function findImage(item) {
     if (item['media:content'] && item['media:content']['$'] && item['media:content']['$'].url) {
         return item['media:content']['$'].url;
@@ -42,7 +39,6 @@ module.exports = async (req, res) => {
     for (const feedConfig of RSS_FEEDS) {
         try {
             const feed = await parser.parseURL(feedConfig.url);
-            // Get 10 items from each source for a longer scroll
             const itemsToAdd = feed.items.slice(0, 10).map(item => ({
                 ...item,
                 source: feedConfig.title,
@@ -53,6 +49,8 @@ module.exports = async (req, res) => {
             console.error(`Failed to load feed: ${feedConfig.title}`);
         }
     }
+
+    allItems.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate));
 
     // Prepare HTML Content
     let htmlContent = `
@@ -75,7 +73,8 @@ module.exports = async (req, res) => {
                 .container {
                     max-width: 800px; 
                     margin: 0 auto; 
-                    padding: 0 0 20px 0; /* Padding top and bottom only */
+                    padding: 20px;
+                    padding-bottom: 30px; 
                     background-color: #fff;
                     box-shadow: 0 0 10px rgba(0,0,0,0.1);
                 }
@@ -83,7 +82,7 @@ module.exports = async (req, res) => {
                     background-color: #004d99; 
                     color: white;
                     padding: 20px 0;
-                    margin-bottom: 0; 
+                    margin-bottom: 20px;
                     text-align: center;
                 }
                 header h1 {
@@ -91,52 +90,25 @@ module.exports = async (req, res) => {
                     font-size: 2.5em;
                     font-weight: 700;
                 }
-
-                /* ----- CODE FOR HORIZONTAL SCROLL ----- */
-                .news-scroll {
-                    display: flex;
-                    overflow-x: scroll; /* Enable side-to-side scrolling */
-                    padding: 20px 10px; /* Padding around the scroll area */
-                    gap: 15px; /* Spacing between items */
-                    -webkit-overflow-scrolling: touch; 
-                }
-                
                 .item { 
-                    flex-shrink: 0; 
-                    width: 250px; /* Set fixed width for better mobile viewing */
-                    height: auto;
                     border: 1px solid #e0e0e0; 
                     padding: 15px; 
-                    margin: 0; 
+                    margin-bottom: 25px; 
                     border-radius: 8px; 
                     display: flex; 
-                    flex-direction: column; 
+                    gap: 15px; 
                     background-color: #ffffff;
                     transition: box-shadow 0.3s ease;
                 }
                 .item:hover {
                     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
                 }
-                
-                .image-container { 
-                    width: 100%; 
-                    height: 140px; /* Slightly taller image for better focus */
-                    margin-bottom: 10px;
-                }
-                .image-container img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover; 
-                    border-radius: 5px;
-                }
-                /* -------------------------------------- */
-                
-                .item h3 { margin-top: 0; margin-bottom: 5px;} 
+                .item h3 { margin-top: 0; } 
                 .item h3 a { 
                     color: #004d99; 
                     text-decoration: none; 
                     font-weight: 700;
-                    font-size: 1.0em; /* Title Font Size */
+                    font-size: 1.1em; /* The stable font size */
                 }
                 .item h3 a:hover {
                     text-decoration: underline;
@@ -144,7 +116,21 @@ module.exports = async (req, res) => {
                 .source { 
                     font-size: 0.85em; 
                     color: #777; 
-                    margin-top: 5px; 
+                    margin-top: 8px; 
+                }
+                .image-container { 
+                    flex-shrink: 0; 
+                    width: 140px; 
+                    height: 90px;
+                }
+                .image-container img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover; 
+                    border-radius: 5px;
+                }
+                .text-content {
+                    flex-grow: 1;
                 }
                 .ad-slot-placeholder {
                     text-align: center;
@@ -168,13 +154,11 @@ module.exports = async (req, res) => {
                 
                 <div class="ad-slot-placeholder">
                     </div>
-                <div class="news-scroll">
-
-    `;
+                `;
 
     // Loop to display all content
     if (allItems.length === 0) {
-        htmlContent += '<p style="padding: 0 20px;">Currently no news available to load.</p>';
+        htmlContent += '<p>Currently no news available to load.</p>';
     } else {
         allItems.forEach((item, index) => {
             const imageHtml = item.imageUrl 
@@ -187,4 +171,37 @@ module.exports = async (req, res) => {
                     <div class="text-content">
                         <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
                         <div class="source">
-                            Source:
+                            Source: <strong>${item.source}</strong> | 
+                            Published: ${new Date(item.isoDate).toLocaleString('en-US')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            if (index === 4) {
+                 htmlContent += `
+                    <div class="ad-slot-placeholder">
+                        </div>
+                    `;
+            }
+        });
+    }
+
+    // Close Container Div and Add Footer
+    htmlContent += `
+            </div> 
+            <footer>
+                &copy; ${new Date().getFullYear()} ${siteTitle}. News sources provided by Fox News and The New York Times.
+            </footer>
+            <script src="/_vercel/insights/script.js" defer></script> 
+        </body>
+        </html>
+    `;
+
+    // Set Vercel Cache Headers
+    const CACHE_HEADER = 'public, s-maxage=3600, stale-while-revalidate=86400';
+
+    res.setHeader('Cache-Control', CACHE_HEADER);
+    res.setHeader('Content-Type', 'text/html');
+    res.status(200).send(htmlContent);
+};
