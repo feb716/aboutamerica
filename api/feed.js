@@ -4,20 +4,20 @@ const Parser = require('rss-parser');
 const parser = new Parser({
     // Setel parser pikeun ngolah namespace gambar média
     customFields: {
-        item: ['media:content', 'enclosure', 'content:encoded', 'description'] // Ditambah 'description'
+        item: ['media:content', 'enclosure', 'content:encoded', 'description'] 
     },
     headers: { 'User-Agent': 'Custom US News Aggregator Bot' }
 });
 
-// DAPTAR SUMBER BERITA US AYEUNA
+// DAPTAR SUMBER BERITA US AYEUNA (Fox US & The New York Times)
 const RSS_FEEDS = [
     { title: 'Fox News - Paling Populer (US)', url: 'https://feeds.foxnews.com/foxnews/most-popular' },
-    { title: 'CNN - Berita Utama (US)', url: 'http://rss.cnn.com/rss/cnn_topstories.rss' }
+    { title: 'The New York Times - Berita Utama', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml' } 
 ];
 
-// FUNGSI BARU: Nyobaan milarian link gambar anu langkung agrésif
+// FUNGSI: Nyobaan milarian link gambar anu langkung agrésif
 function findImage(item) {
-    // 1. Coba dina tag media:content (dipake ku Fox)
+    // 1. Coba dina tag media:content
     if (item['media:content'] && item['media:content']['$'] && item['media:content']['$'].url) {
         return item['media:content']['$'].url;
     }
@@ -26,11 +26,11 @@ function findImage(item) {
         return item.enclosure.url;
     }
     
-    // 3. Coba tina deskripsi ATAU content:encoded (agrésif nyari tag <img>)
+    // 3. Coba tina deskripsi ATAWA content:encoded (nyari tag <img>)
     const contentToSearch = item['content:encoded'] || item.content || item.description || '';
     
     if (contentToSearch) {
-        // Pake regex pikeun nyari tag <img> di mana wae
+        // Pake regex pikeun nyari tag <img>
         const imgMatch = contentToSearch.match(/<img[^>]+src="([^">]+)"/);
         if (imgMatch) {
             return imgMatch[1];
