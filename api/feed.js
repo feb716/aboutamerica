@@ -85,14 +85,24 @@ module.exports = async (req, res) => {
                     background-color: #004d99; 
                     color: white;
                     padding: 20px 0;
-                    margin-bottom: 0px; /* <--- INI PERBAIKANNYA: 0px dari 20px */
+                    margin-bottom: 0px; 
                     text-align: center;
                 }
                 header h1 {
                     margin: 0;
                     font-size: 2.5em;
                     font-weight: 700;
+                    /* --- Tambahkan CSS Flexbox untuk mensejajarkan teks dan bendera --- */
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
                 }
+                header h1 img {
+                    height: 0.9em; /* Tinggi gambar bendera */
+                    vertical-align: middle;
+                }
+                /* ---------------------------------------------------------------- */
                 .item { 
                     border: 1px solid #e0e0e0; 
                     padding: 15px; 
@@ -104,14 +114,14 @@ module.exports = async (req, res) => {
                     transition: box-shadow 0.3s ease;
                 }
                 .item:hover {
-                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
                 }
                 .item h3 { margin-top: 0; margin-bottom: 5px; } 
                 .item h3 a { 
                     color: #004d99; 
                     text-decoration: none; 
                     font-weight: 700;
-                    font-size: 1.1em; /* Menggunakan font size 1.1em yang stabil */
+                    font-size: 1.1em; 
                 }
                 .item h3 a:hover {
                     text-decoration: underline;
@@ -124,7 +134,7 @@ module.exports = async (req, res) => {
                 .image-container { 
                     flex-shrink: 0; 
                     width: 140px; 
-                    height: 90px; /* Menggunakan dimensi gambar yang lebih aman */
+                    height: 90px; 
                 }
                 .image-container img {
                     width: 100%;
@@ -151,7 +161,10 @@ module.exports = async (req, res) => {
         </head>
         <body>
             <header>
-                <h1>${siteTitle}</h1>
+                <h1>
+                    US News Aggregator: Fox & NYT 
+                    <img src="https://flagicons.lipis.dev/flags/4x3/us.svg" alt="USA Flag"> 
+                </h1>
             </header>
             <div class="container">
                 
