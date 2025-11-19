@@ -9,14 +9,13 @@ const parser = new Parser({
     headers: { 'User-Agent': 'Custom US News Aggregator Bot' }
 });
 
-// DAPTAR SUMBER BERITA US AYEUNA (Fox US, NYT, & People Magazine)
+// DAPTAR SUMBER BERITA US AYEUNA (HANYA NU STABIL GAMBARNA)
 const RSS_FEEDS = [
     { title: 'Fox News - Paling Populer (US)', url: 'https://feeds.foxnews.com/foxnews/most-popular' },
-    { title: 'The New York Times - Berita Utama', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml' },
-    { title: 'People Magazine - Artis & Selebriti', url: 'https://people.com/feed/' } // DIPASANG DEUI!
+    { title: 'The New York Times - Berita Utama', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml' } 
 ];
 
-// FUNGSI: Nyobaan milarian link gambar anu langkung agrésif
+// FUNGSI: Nyobaan milarian link gambar
 function findImage(item) {
     // 1. Coba dina tag media:content
     if (item['media:content'] && item['media:content']['$'] && item['media:content']['$'].url) {
@@ -45,14 +44,14 @@ function findImage(item) {
 module.exports = async (req, res) => {
     
     let allItems = [];
-    const siteTitle = 'Agregator Berita Utama US & Selebriti';
+    const siteTitle = 'Agregator Berita Utama US';
     
     // Looping pikeun ngumpulkeun data tina sadaya Feed
     for (const feedConfig of RSS_FEEDS) {
         try {
             const feed = await parser.parseURL(feedConfig.url);
             
-            // Tambihkeun 10 item terbaru tina unggal feed
+            // Tambihkeun 10 item terbaru tina unggal feed (Maksimal 20 total)
             const itemsToAdd = feed.items.slice(0, 10).map(item => ({
                 ...item,
                 source: feedConfig.title,
@@ -107,7 +106,7 @@ module.exports = async (req, res) => {
         </head>
         <body>
             <h1>${siteTitle}</h1>
-            <p>Diperbarui otomatis ti ${RSS_FEEDS.length} sumber. **(Ayeuna sareng Gambar!)**</p>
+            <p>Diperbarui otomatis ti ${RSS_FEEDS.length} sumber anu stabil gambarna.</p>
             <p>Postingan di-cache 1 jam (cadangan aman 24 jam).</p>
     `;
 
