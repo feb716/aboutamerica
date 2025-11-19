@@ -1,6 +1,3 @@
-Pakai kode ini supaya tidak mengubah yang lain dan hanya mengubah logo :
-
-
 // File: api/feed.js
 
 const Parser = require('rss-parser');
