@@ -4,7 +4,7 @@ const Parser = require('rss-parser');
 const parser = new Parser({
     // Setel parser pikeun ngolah namespace gambar média
     customFields: {
-        item: ['media:content', 'enclosure', 'content:encoded']
+        item: ['media:content', 'enclosure', 'content:encoded', 'description'] // Ditambah 'description'
     },
     headers: { 'User-Agent': 'Custom US News Aggregator Bot' }
 });
@@ -15,23 +15,28 @@ const RSS_FEEDS = [
     { title: 'CNN - Berita Utama (US)', url: 'http://rss.cnn.com/rss/cnn_topstories.rss' }
 ];
 
-// FUNGSI BARU: Nyobaan milarian link gambar dina item feed
+// FUNGSI BARU: Nyobaan milarian link gambar anu langkung agrésif
 function findImage(item) {
-    // 1. Coba dina tag media:content (dipake ku Fox/CNN)
+    // 1. Coba dina tag media:content (dipake ku Fox)
     if (item['media:content'] && item['media:content']['$'] && item['media:content']['$'].url) {
         return item['media:content']['$'].url;
     }
-    // 2. Coba dina tag enclosure (format RSS umum)
+    // 2. Coba dina tag enclosure
     if (item.enclosure && item.enclosure.url) {
         return item.enclosure.url;
     }
-    // 3. Coba tina deskripsi/konten (extract <img> tag)
-    if (item['content:encoded']) {
-        const imgMatch = item['content:encoded'].match(/<img[^>]+src="([^">]+)"/);
+    
+    // 3. Coba tina deskripsi ATAU content:encoded (agrésif nyari tag <img>)
+    const contentToSearch = item['content:encoded'] || item.content || item.description || '';
+    
+    if (contentToSearch) {
+        // Pake regex pikeun nyari tag <img> di mana wae
+        const imgMatch = contentToSearch.match(/<img[^>]+src="([^">]+)"/);
         if (imgMatch) {
             return imgMatch[1];
         }
     }
+    
     return null; // Upami teu aya gambar anu kapanggih
 }
 
@@ -79,20 +84,20 @@ module.exports = async (req, res) => {
                     padding: 15px; 
                     margin-bottom: 20px; 
                     border-radius: 5px; 
-                    display: flex; /* Aktifkeun tampilan flex */
-                    gap: 15px; /* Spasi antara gambar sareng téks */
+                    display: flex; 
+                    gap: 15px; 
                 }
                 .item h3 a { color: #0056b3; text-decoration: none; }
                 .source { font-size: 0.9em; color: #555; margin-top: 5px; }
                 .image-container { 
-                    flex-shrink: 0; /* Pastikeun gambar teu nyusut */
-                    width: 120px; /* Ukuran gambar */
+                    flex-shrink: 0; 
+                    width: 120px; 
                     height: 80px;
                 }
                 .image-container img {
                     width: 100%;
                     height: 100%;
-                    object-fit: cover; /* Pastikeun gambar ngeusi kotak tanpa distorsi */
+                    object-fit: cover; 
                     border-radius: 3px;
                 }
                 .text-content {
@@ -114,7 +119,7 @@ module.exports = async (req, res) => {
             // Nyiapkeun tag gambar upami link kapanggih
             const imageHtml = item.imageUrl 
                 ? `<div class="image-container"><img src="${item.imageUrl}" alt="${item.title}" loading="lazy"></div>` 
-                : ''; // Tampilkeun kosong upami teu aya gambar
+                : ''; 
             
             htmlContent += `
                 <div class="item">
