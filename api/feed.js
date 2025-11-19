@@ -67,8 +67,8 @@ module.exports = async (req, res) => {
             <style>
                 body { 
                     font-family: 'Roboto', sans-serif; 
-                    background-color: #000000; /* HITAM: Latar belakang seluruh halaman */
-                    color: #ffffff; /* PUTIH: Warna teks default (seperti footer) */
+                    background-color: #000000; 
+                    color: #ffffff; 
                     line-height: 1.6;
                     margin: 0;
                     padding: 0;
@@ -78,11 +78,11 @@ module.exports = async (req, res) => {
                     margin: 0 auto; 
                     padding: 20px;
                     padding-bottom: 30px; 
-                    background-color: #000000; /* HITAM: Latar belakang di sekitar kartu berita */
+                    background-color: #000000; 
                     box-shadow: 0 0 10px rgba(255,255,255,0.1); 
                 }
                 header {
-                    background-image: url('/uslogo.jpg'); /* GAMBAR BENDERA */
+                    background-image: url('/uslogo.jpg'); 
                     background-size: cover; 
                     background-position: center; 
                     color: white;
@@ -111,6 +111,7 @@ module.exports = async (req, res) => {
                     font-weight: 700;
                     text-shadow: 2px 2px 4px rgba(0,0,0,0.7); 
                 }
+                /* --- PERUBAHAN UTAMA: Membuat Kartu Berita menjadi Hitam --- */
                 .item { 
                     border: 1px solid #333333; 
                     padding: 15px; 
@@ -118,15 +119,15 @@ module.exports = async (req, res) => {
                     border-radius: 8px; 
                     display: flex; 
                     gap: 15px; 
-                    background-color: #ffffff; /* Kartu berita tetap putih */
+                    background-color: #000000; /* <--- PERBAIKAN: Background Item menjadi Hitam */
                     transition: box-shadow 0.3s ease;
                 }
                 .item:hover {
-                    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15); 
+                    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.25); 
                 }
                 .item h3 { margin-top: 0; margin-bottom: 5px; } 
                 .item h3 a { 
-                    color: #004d99; 
+                    color: #ffffff; /* <--- PERBAIKAN: Link judul menjadi Putih */
                     text-decoration: none; 
                     font-weight: 700;
                     font-size: 1.1em; 
@@ -136,9 +137,10 @@ module.exports = async (req, res) => {
                 }
                 .source { 
                     font-size: 0.85em; 
-                    color: #777; 
+                    color: #cccccc; /* <--- PERBAIKAN: Teks sumber menjadi Abu-abu Terang */
                     margin-top: 5px; 
                 }
+                /* --- AKHIR PERUBAHAN UTAMA --- */
                 .image-container { 
                     flex-shrink: 0; 
                     width: 140px; 
