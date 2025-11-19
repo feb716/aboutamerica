@@ -111,7 +111,6 @@ module.exports = async (req, res) => {
                     font-weight: 700;
                     text-shadow: 2px 2px 4px rgba(0,0,0,0.7); 
                 }
-                /* --- PERUBAHAN UTAMA: Membuat Kartu Berita menjadi Hitam --- */
                 .item { 
                     border: 1px solid #333333; 
                     padding: 15px; 
@@ -119,7 +118,7 @@ module.exports = async (req, res) => {
                     border-radius: 8px; 
                     display: flex; 
                     gap: 15px; 
-                    background-color: #000000; /* <--- PERBAIKAN: Background Item menjadi Hitam */
+                    background-color: #000000; 
                     transition: box-shadow 0.3s ease;
                 }
                 .item:hover {
@@ -127,20 +126,19 @@ module.exports = async (req, res) => {
                 }
                 .item h3 { margin-top: 0; margin-bottom: 5px; } 
                 .item h3 a { 
-                    color: #ffffff; /* <--- PERBAIKAN: Link judul menjadi Putih */
+                    color: #ffffff; 
                     text-decoration: none; 
-                    font-weight: 700;
-                    font-size: 1.1em; 
+                    font-weight: 500; /* FINAL: Ketebalan font judul lebih lembut */
+                    font-size: 1em; /* FINAL: Ukuran font judul lebih kecil */
                 }
                 .item h3 a:hover {
                     text-decoration: underline;
                 }
                 .source { 
                     font-size: 0.85em; 
-                    color: #cccccc; /* <--- PERBAIKAN: Teks sumber menjadi Abu-abu Terang */
+                    color: #cccccc; 
                     margin-top: 5px; 
                 }
-                /* --- AKHIR PERUBAHAN UTAMA --- */
                 .image-container { 
                     flex-shrink: 0; 
                     width: 140px; 
