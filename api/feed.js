@@ -9,11 +9,11 @@ const parser = new Parser({
     headers: { 'User-Agent': 'Custom US News Aggregator Bot' }
 });
 
-// DAPTAR SUMBER BERITA US AYEUNA (Fox US, NYT, & E! Online)
+// DAPTAR SUMBER BERITA US AYEUNA (Fox US, NYT, & People Magazine)
 const RSS_FEEDS = [
     { title: 'Fox News - Paling Populer (US)', url: 'https://feeds.foxnews.com/foxnews/most-popular' },
     { title: 'The New York Times - Berita Utama', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml' },
-    { title: 'E! Online - Selebriti US', url: 'http://www.eonline.com/rss/feeds/news.xml' } // SUMBER BARU: E! Online
+    { title: 'People Magazine - Artis & Selebriti', url: 'https://people.com/feed/' } // DIGENTOS!
 ];
 
 // FUNGSI: Nyobaan milarian link gambar anu langkung agrésif
@@ -45,14 +45,14 @@ function findImage(item) {
 module.exports = async (req, res) => {
     
     let allItems = [];
-    const siteTitle = 'Agregator Berita Utama US & Selebriti'; // Judul dirobah
+    const siteTitle = 'Agregator Berita Utama US & Selebriti';
     
     // Looping pikeun ngumpulkeun data tina sadaya Feed
     for (const feedConfig of RSS_FEEDS) {
         try {
             const feed = await parser.parseURL(feedConfig.url);
             
-            // Tambihkeun 10 item terbaru tina unggal feed (Total maks. 30 item)
+            // Tambihkeun 10 item terbaru tina unggal feed
             const itemsToAdd = feed.items.slice(0, 10).map(item => ({
                 ...item,
                 source: feedConfig.title,
