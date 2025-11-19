@@ -9,11 +9,11 @@ const parser = new Parser({
     headers: { 'User-Agent': 'Custom US News Aggregator Bot' }
 });
 
-// DAPTAR SUMBER BERITA US AYEUNA (Fox US, NYT, & TMZ)
+// DAPTAR SUMBER BERITA US AYEUNA (Fox US, NYT, & People Magazine)
 const RSS_FEEDS = [
     { title: 'Fox News - Paling Populer (US)', url: 'https://feeds.foxnews.com/foxnews/most-popular' },
     { title: 'The New York Times - Berita Utama', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml' },
-    { title: 'TMZ - Gosip Selebriti', url: 'https://www.tmz.com/rss.xml' } // DIGENTOS BALIK KA TMZ!
+    { title: 'People Magazine - Artis & Selebriti', url: 'https://people.com/feed/' } // DIPASANG DEUI!
 ];
 
 // FUNGSI: Nyobaan milarian link gambar anu langkung agrésif
@@ -45,7 +45,7 @@ function findImage(item) {
 module.exports = async (req, res) => {
     
     let allItems = [];
-    const siteTitle = 'Agregator Berita Utama US & Gosip Selebriti'; // Judul dirobah
+    const siteTitle = 'Agregator Berita Utama US & Selebriti';
     
     // Looping pikeun ngumpulkeun data tina sadaya Feed
     for (const feedConfig of RSS_FEEDS) {
@@ -107,7 +107,7 @@ module.exports = async (req, res) => {
         </head>
         <body>
             <h1>${siteTitle}</h1>
-            <p>Diperbarui otomatis ti ${RSS_FEEDS.length} sumber. **(TMZ kamungkinan tanpa gambar)**</p>
+            <p>Diperbarui otomatis ti ${RSS_FEEDS.length} sumber. **(Ayeuna sareng Gambar!)**</p>
             <p>Postingan di-cache 1 jam (cadangan aman 24 jam).</p>
     `;
 
