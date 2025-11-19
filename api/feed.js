@@ -2,17 +2,20 @@
 
 const Parser = require('rss-parser');
 const parser = new Parser({
+    // Set parser to handle media image namespaces
     customFields: {
         item: ['media:content', 'enclosure', 'content:encoded', 'description'] 
     },
     headers: { 'User-Agent': 'Custom US News Aggregator Bot' }
 });
 
+// US NEWS SOURCES (Fox US, NYT)
 const RSS_FEEDS = [
     { title: 'Fox News - Most Popular (US)', url: 'https://feeds.foxnews.com/foxnews/most-popular' },
     { title: 'The New York Times - Homepage', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml' } 
 ];
 
+// Function: Attempt to find the image link
 function findImage(item) {
     if (item['media:content'] && item['media:content']['$'] && item['media:content']['$'].url) {
         return item['media:content']['$'].url;
@@ -103,12 +106,12 @@ module.exports = async (req, res) => {
                 .item:hover {
                     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
                 }
-                .item h3 { margin-top: 0; } 
+                .item h3 { margin-top: 0; margin-bottom: 5px; } 
                 .item h3 a { 
                     color: #004d99; 
                     text-decoration: none; 
                     font-weight: 700;
-                    font-size: 1.1em; /* The stable font size */
+                    font-size: 0.9em; /* --- NEW SMALLEST FONT SIZE (0.9em) --- */
                 }
                 .item h3 a:hover {
                     text-decoration: underline;
@@ -116,12 +119,12 @@ module.exports = async (req, res) => {
                 .source { 
                     font-size: 0.85em; 
                     color: #777; 
-                    margin-top: 8px; 
+                    margin-top: 5px; 
                 }
                 .image-container { 
                     flex-shrink: 0; 
                     width: 140px; 
-                    height: 90px;
+                    height: 100px; 
                 }
                 .image-container img {
                     width: 100%;
