@@ -60,8 +60,8 @@ module.exports = async (req, res) => {
         <!DOCTYPE html>
         <html lang="en">
         <head>
-        <meta name="monetag" content="1b949bb2ec11c7b38b30da69aacf4401">
             <meta charset="UTF-8">
+            <meta name="monetag" content="1b949bb2ec11c7b38b30da69aacf4401">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>${siteTitle}</title>
             <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
