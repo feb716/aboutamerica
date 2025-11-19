@@ -1,5 +1,5 @@
 {
-  "name": "berita-otomatis-vercel",
+  "name": "all-about-amerika-rss",
   "version": "1.0.0",
   "dependencies": {
     "rss-parser": "^3.12.0"
