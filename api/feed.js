@@ -14,7 +14,7 @@ const RSS_FEEDS = [
 ];
 
 function findImage(item) {
-    if (item['media:content'] && item['media:content']['$'] && item['media:content']['$'].url) {
+    if (item['media:content'] && item['media:content']['$'] && item['media:content']['$].url) {
         return item['media:content']['$'].url;
     }
     if (item.enclosure && item.enclosure.url) {
@@ -74,7 +74,7 @@ module.exports = async (req, res) => {
                     max-width: 800px; 
                     margin: 0 auto; 
                     padding: 20px;
-                    padding-bottom: 80px; /* Ditambahkeun deui padding sangkan item terakhir teu ka potong */
+                    padding-bottom: 80px; 
                     background-color: #fff;
                     box-shadow: 0 0 10px rgba(0,0,0,0.1);
                 }
@@ -108,7 +108,9 @@ module.exports = async (req, res) => {
                     color: #004d99; 
                     text-decoration: none; 
                     font-weight: 700;
-                    font-size: 1.1em;
+                    /* --- PERBAIKAN FONT JUDUL DI IEU BARIS! --- */
+                    font-size: 1.0em; /* Leuwih leutik ti 1.1em sateuacana */
+                    /* ------------------------------------------- */
                 }
                 .item h3 a:hover {
                     text-decoration: underline;
@@ -178,7 +180,6 @@ module.exports = async (req, res) => {
                 </div>
             `;
             
-            // Masihan SLOT IKLAN di tengah daftar (Saatos 5 berita)
             if (index === 4) {
                  htmlContent += `
                     <div class="ad-slot-placeholder">
