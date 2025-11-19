@@ -37,7 +37,7 @@ function findImage(item) {
 module.exports = async (req, res) => {
     
     let allItems = [];
-    const siteTitle = 'US News Aggregator: Fox & NYT';
+    const siteTitle = 'American News';
     
     for (const feedConfig of RSS_FEEDS) {
         try {
