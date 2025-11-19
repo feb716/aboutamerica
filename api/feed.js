@@ -219,6 +219,16 @@ module.exports = async (req, res) => {
         <script type='text/javascript' src='//pl28086601.effectivegatecpm.com/a8/fe/e2/a8fee264b15ed6c8f1b8b74b72855f82.js'></script>
         <script async="async" data-cfasync="false" src="//pl28086626.effectivegatecpm.com/031973f0b3b4fc7ae05ccb6044a67aba/invoke.js"></script>
 <div id="container-031973f0b3b4fc7ae05ccb6044a67aba"></div>
+        <script type="text/javascript">
+	atOptions = {
+		'key' : '3d7839634dd1ac154d8b6c75e8900d36',
+		'format' : 'iframe',
+		'height' : 60,
+		'width' : 468,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/3d7839634dd1ac154d8b6c75e8900d36/invoke.js"></script>
         </html>
     `;
 
