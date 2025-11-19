@@ -77,7 +77,7 @@ module.exports = async (req, res) => {
         });
     }
 
-    // BARIS TAMBAHAN UNTUK SPEED INSIGHTS!
+    // BARIS TAMBAHAN UNTUK SPEED INSIGHTS! (Baris ieu anu nambihkeun tracking)
     htmlContent += `
             <script src="/_vercel/insights/script.js" defer></script> 
         </body>
