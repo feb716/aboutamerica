@@ -6,7 +6,7 @@ const parser = new Parser({
     customFields: {
         item: ['media:content', 'enclosure', 'content:encoded', 'description'] 
     },
-    headers: { 'User-Agent': 'Custom US News Aggregator Bot' }
+    headers: { 'User-Agent': 'US News' }
 });
 
 // US NEWS SOURCES (Fox US, NYT)
