@@ -82,17 +82,37 @@ module.exports = async (req, res) => {
                     box-shadow: 0 0 10px rgba(0,0,0,0.1);
                 }
                 header {
-                    background-color: #004d99; 
+                    /* --- PERUBAHAN UTAMA DI SINI: Ganti background-color dengan background-image --- */
+                    background-image: url('https://i.imgur.com/8Qj8j0Y.jpg'); /* Menggunakan gambar bendera AS berkualitas tinggi */
+                    background-size: cover; /* Pastikan gambar menutupi seluruh area header */
+                    background-position: center; /* Pusatkan gambar */
                     color: white;
                     padding: 20px 0;
-                    margin-bottom: 0px; /* <--- INI PERBAIKANNYA: 0px dari 20px */
+                    margin-bottom: 0px; 
                     text-align: center;
+                    /* Menambahkan lapisan semi-transparan (overlay) agar teks tetap terbaca jelas */
+                    position: relative; 
+                    z-index: 1; /* Menjamin konten header di atas overlay */
+                }
+                header::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.4); /* Overlay hitam transparan 40% */
+                    z-index: 0; /* Pastikan overlay di bawah konten header */
                 }
                 header h1 {
+                    position: relative; /* Penting: agar teks berada di atas overlay */
+                    z-index: 2; /* Penting: agar teks berada di atas overlay */
                     margin: 0;
                     font-size: 2.5em;
                     font-weight: 700;
+                    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Menambah bayangan agar teks lebih terbaca */
                 }
+                /* --- AKHIR PERUBAHAN HEADER --- */
                 .item { 
                     border: 1px solid #e0e0e0; 
                     padding: 15px; 
@@ -111,7 +131,7 @@ module.exports = async (req, res) => {
                     color: #004d99; 
                     text-decoration: none; 
                     font-weight: 700;
-                    font-size: 1.1em; /* Menggunakan font size 1.1em yang stabil */
+                    font-size: 1.1em; 
                 }
                 .item h3 a:hover {
                     text-decoration: underline;
@@ -124,7 +144,7 @@ module.exports = async (req, res) => {
                 .image-container { 
                     flex-shrink: 0; 
                     width: 140px; 
-                    height: 90px; /* Menggunakan dimensi gambar yang lebih aman */
+                    height: 90px; 
                 }
                 .image-container img {
                     width: 100%;
