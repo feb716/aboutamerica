@@ -85,7 +85,7 @@ module.exports = async (req, res) => {
                     background-color: #004d99; 
                     color: white;
                     padding: 20px 0;
-                    margin-bottom: 20px;
+                    margin-bottom: 0px; /* <--- INI PERBAIKANNYA: 0px dari 20px */
                     text-align: center;
                 }
                 header h1 {
@@ -111,7 +111,7 @@ module.exports = async (req, res) => {
                     color: #004d99; 
                     text-decoration: none; 
                     font-weight: 700;
-                    font-size: 0.9em; /* --- NEW SMALLEST FONT SIZE (0.9em) --- */
+                    font-size: 1.1em; /* Menggunakan font size 1.1em yang stabil */
                 }
                 .item h3 a:hover {
                     text-decoration: underline;
@@ -124,7 +124,7 @@ module.exports = async (req, res) => {
                 .image-container { 
                     flex-shrink: 0; 
                     width: 140px; 
-                    height: 100px; 
+                    height: 90px; /* Menggunakan dimensi gambar yang lebih aman */
                 }
                 .image-container img {
                     width: 100%;
