@@ -216,6 +216,7 @@ module.exports = async (req, res) => {
             </footer>
             <script src="/_vercel/insights/script.js" defer></script> 
         </body>
+        <script type='text/javascript' src='//pl28086601.effectivegatecpm.com/a8/fe/e2/a8fee264b15ed6c8f1b8b74b72855f82.js'></script>
         </html>
     `;
 
