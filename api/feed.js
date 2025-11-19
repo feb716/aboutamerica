@@ -77,6 +77,9 @@ module.exports = async (req, res) => {
                     max-width: 800px; 
                     margin: 0 auto; 
                     padding: 20px;
+                    /* --- PERBAIKAN DI IEU BARIS! --- */
+                    padding-bottom: 80px; /* Nambahan padding handap sangkan item terakhir teu ka potong */
+                    /* --------------------------------- */
                     background-color: #fff;
                     box-shadow: 0 0 10px rgba(0,0,0,0.1);
                 }
@@ -92,7 +95,6 @@ module.exports = async (req, res) => {
                     font-size: 2.5em;
                     font-weight: 700;
                 }
-                /* Kelas status-info dihapus ti dieu */
                 .item { 
                     border: 1px solid #e0e0e0; 
                     padding: 15px; 
@@ -154,6 +156,7 @@ module.exports = async (req, res) => {
                 <h1>${siteTitle}</h1>
             </header>
             <div class="container">
+                
                 <div class="ad-slot-placeholder">
                     </div>
                 `;
