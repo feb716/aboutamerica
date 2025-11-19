@@ -61,9 +61,8 @@ module.exports = async (req, res) => {
         <html lang="en">
         <head>
             <meta charset="UTF-8">
-            <meta name="monetag" content="1b949bb2ec11c7b38b30da69aacf4401">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>${siteTitle}</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>${siteTitle}</title>
             <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
             <style>
                 body { 
@@ -217,20 +216,7 @@ module.exports = async (req, res) => {
             </footer>
             <script src="/_vercel/insights/script.js" defer></script> 
         </body>
-        <script type='text/javascript' src='//pl28086601.effectivegatecpm.com/a8/fe/e2/a8fee264b15ed6c8f1b8b74b72855f82.js'></script>
-        <script async="async" data-cfasync="false" src="//pl28086626.effectivegatecpm.com/031973f0b3b4fc7ae05ccb6044a67aba/invoke.js"></script>
-<div id="container-031973f0b3b4fc7ae05ccb6044a67aba"></div>
-        <script type="text/javascript">
-	atOptions = {
-		'key' : '3d7839634dd1ac154d8b6c75e8900d36',
-		'format' : 'iframe',
-		'height' : 60,
-		'width' : 468,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/3d7839634dd1ac154d8b6c75e8900d36/invoke.js"></script>
-</html>
+        </html>
     `;
 
     // Set Vercel Cache Headers
