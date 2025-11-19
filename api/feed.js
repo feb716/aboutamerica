@@ -17,7 +17,6 @@ const RSS_FEEDS = [
 
 // FUNGSI: Nyobaan milarian link gambar
 function findImage(item) {
-    // Logika gambar anu paling agrésif (geus urang perbaiki)
     if (item['media:content'] && item['media:content']['$'] && item['media:content']['$'].url) {
         return item['media:content']['$'].url;
     }
@@ -130,7 +129,7 @@ module.exports = async (req, res) => {
                 }
                 .image-container { 
                     flex-shrink: 0; 
-                    width: 140px; /* Ukuran gambar dilegaan sakedik */
+                    width: 140px; 
                     height: 90px;
                 }
                 .image-container img {
@@ -142,15 +141,10 @@ module.exports = async (req, res) => {
                 .text-content {
                     flex-grow: 1;
                 }
-                .ad-slot {
+                /* SLOT IKLAN DILEUNGITKEUN AYEUNA, TAPI TEMPATNA BISA DIPAKE KENGING DIV KOSONG KIEU: */
+                .ad-slot-placeholder {
                     text-align: center;
                     margin: 30px 0;
-                    padding: 15px;
-                    border: 2px dashed #ff4500; /* Warna oranyeu pikeun iklan */
-                    background-color: #fffaf0;
-                    font-size: 0.9em;
-                    color: #ff4500;
-                    font-weight: 700;
                 }
                 footer {
                     text-align: center;
@@ -171,9 +165,8 @@ module.exports = async (req, res) => {
                     Diperbarui otomatis ti ${RSS_FEEDS.length} sumber stabil. | Postingan di-cache 1 jam.
                 </div>
                 
-                <div class="ad-slot">
-                    SLOT IKLAN 1 (728x90 atanapi Auto) - GENTOS BARIS IEU KU KODE ADSENSE UNIT ANJEUN
-                </div>
+                <div class="ad-slot-placeholder">
+                    </div>
                 `;
 
     // Looping pikeun nembongkeun sadaya konten
@@ -181,7 +174,6 @@ module.exports = async (req, res) => {
         htmlContent += '<p>Saat ini tidak ada berita yang dapat dimuat.</p>';
     } else {
         allItems.forEach((item, index) => {
-            // Nyiapkeun tag gambar upami link kapanggih
             const imageHtml = item.imageUrl 
                 ? `<div class="image-container"><img src="${item.imageUrl}" alt="${item.title}" loading="lazy"></div>` 
                 : ''; 
@@ -202,9 +194,8 @@ module.exports = async (req, res) => {
             // Masihan SLOT IKLAN di tengah daftar (Saatos 5 berita)
             if (index === 4) {
                  htmlContent += `
-                    <div class="ad-slot">
-                        SLOT IKLAN 2 (300x250 atanapi Auto) - GENTOS BARIS IEU KU KODE ADSENSE UNIT ANJEUN
-                    </div>
+                    <div class="ad-slot-placeholder">
+                        </div>
                     `;
             }
         });
