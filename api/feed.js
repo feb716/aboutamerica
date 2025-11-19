@@ -74,7 +74,7 @@ module.exports = async (req, res) => {
                     max-width: 800px; 
                     margin: 0 auto; 
                     padding: 20px;
-                    padding-bottom: 80px; /* Ditambahkeun deui padding sangkan item terakhir teu ka potong */
+                    padding-bottom: 80px; /* Dipertahankan pikeun scrollability */
                     background-color: #fff;
                     box-shadow: 0 0 10px rgba(0,0,0,0.1);
                 }
@@ -103,12 +103,12 @@ module.exports = async (req, res) => {
                 .item:hover {
                     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
                 }
-                .item h3 { margin-top: 0; margin-bottom: 5px; } /* Ngarapihkeun margin judul */
+                .item h3 { margin-top: 0; margin-bottom: 5px; } 
                 .item h3 a { 
                     color: #004d99; 
                     text-decoration: none; 
                     font-weight: 700;
-                    font-size: 1.1em; /* Balik deui ka ukuran default stabil */
+                    font-size: 1.0em; /* --- FONT SIZE LEUWIH LEUTIK (1.0em) --- */
                 }
                 .item h3 a:hover {
                     text-decoration: underline;
@@ -116,12 +116,12 @@ module.exports = async (req, res) => {
                 .source { 
                     font-size: 0.85em; 
                     color: #777; 
-                    margin-top: 5px; /* Ngarapihkeun margin tanggal/sumber */
+                    margin-top: 5px; 
                 }
                 .image-container { 
                     flex-shrink: 0; 
                     width: 140px; 
-                    height: 100px; /* Ngarobih jangkungna gambar janten 100px (tina 90px) pikeun proporsi anu langkung saé */
+                    height: 100px; 
                 }
                 .image-container img {
                     width: 100%;
