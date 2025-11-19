@@ -2,28 +2,28 @@
 
 const Parser = require('rss-parser');
 const parser = new Parser({
-    headers: { 'User-Agent': 'Custom RSS Aggregator' }
+    // Header pikeun nyegah blocking ku server sumber berita
+    headers: { 'User-Agent': 'Custom US News Aggregator Bot' }
 });
 
-// URl RSS Feeds anu anjeun hoyong agregat
+// DAPTAR SUMBER BERITA US AYEUNA (Fox US & CNN US)
 const RSS_FEEDS = [
-    { title: 'Fox News - Popular', url: 'https://feeds.foxnews.com/foxnews/most-popular' },
-    { title: 'TMZ (Entertainment)', url: 'https://www.tmz.com/rss.xml' },
-    { title: 'NBA News', url: 'https://www.nba.com/rss/nba_latest_news.rss' }
+    { title: 'Fox News - Paling Populer (US)', url: 'https://feeds.foxnews.com/foxnews/most-popular' },
+    { title: 'CNN - Berita Utama (US)', url: 'http://rss.cnn.com/rss/cnn_topstories.rss' }
 ];
 
 module.exports = async (req, res) => {
     
     let allItems = [];
-    const siteTitle = 'Agregator Berita Otomatis Gratis';
+    const siteTitle = 'Agregator Berita Utama US';
     
     // Looping pikeun ngumpulkeun data tina sadaya Feed
     for (const feedConfig of RSS_FEEDS) {
         try {
             const feed = await parser.parseURL(feedConfig.url);
             
-            // Tambihkeun 5 item terbaru tina unggal feed, tambihkeun label sumber
-            const itemsToAdd = feed.items.slice(0, 5).map(item => ({
+            // Tambihkeun 10 item terbaru tina unggal feed (total maksimal 20)
+            const itemsToAdd = feed.items.slice(0, 10).map(item => ({
                 ...item,
                 source: feedConfig.title
             }));
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
         }
     }
 
-    // Sortir sadaya item dumasar tanggal terbaru
+    // Sortir sadaya item dumasar tanggal terbaru (paling luhur)
     allItems.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate));
 
     // Ngadamel Tampilan HTML
@@ -77,7 +77,7 @@ module.exports = async (req, res) => {
         });
     }
 
-    // BARIS TAMBAHAN UNTUK SPEED INSIGHTS! (Baris ieu anu nambihkeun tracking)
+    // Skrip Vercel Speed Insights (Diantep bae, moal ngaganggu iklan)
     htmlContent += `
             <script src="/_vercel/insights/script.js" defer></script> 
         </body>
