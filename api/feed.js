@@ -67,7 +67,7 @@ module.exports = async (req, res) => {
             <style>
                 body { 
                     font-family: 'Roboto', sans-serif; 
-                    background-color: #f4f7f9; 
+                    background-color: #000000; /* <--- PERBAIKAN: Berubah dari #f4f7f9 menjadi Hitam Solid (#000000) */
                     color: #333;
                     line-height: 1.6;
                     margin: 0;
@@ -82,17 +82,14 @@ module.exports = async (req, res) => {
                     box-shadow: 0 0 10px rgba(0,0,0,0.1);
                 }
                 header {
-                    /* --- INI ADALAH PERUBAHAN SATU-SATUNYA PADA HEADER --- */
-                    background-image: url('/uslogo.jpg'); /* Menggunakan file yang sudah Anda upload */
+                    background-image: url('/uslogo.jpg'); 
                     background-size: cover; 
                     background-position: center; 
-                    /* Hapus background-color: #004d99; */
                     color: white;
                     padding: 20px 0;
                     margin-bottom: 0px; 
                     text-align: center;
                     
-                    /* Tambahkan lapisan (overlay) agar teks tetap terbaca */
                     position: relative; 
                     z-index: 1; 
                 }
@@ -103,19 +100,17 @@ module.exports = async (req, res) => {
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background-color: rgba(0, 0, 0, 0.5); /* Overlay hitam transparan 50% */
+                    background-color: rgba(0, 0, 0, 0.5); 
                     z-index: 0; 
                 }
-                /* Memastikan H1 di atas overlay dan terbaca jelas */
                 header h1 {
                     position: relative;
                     z-index: 2;
                     margin: 0;
                     font-size: 2.5em;
                     font-weight: 700;
-                    text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* Bayangan agar teks menonjol */
+                    text-shadow: 2px 2px 4px rgba(0,0,0,0.7); 
                 }
-                /* --- AKHIR PERUBAHAN HEADER --- */
                 .item { 
                     border: 1px solid #e0e0e0; 
                     padding: 15px; 
@@ -134,7 +129,7 @@ module.exports = async (req, res) => {
                     color: #004d99; 
                     text-decoration: none; 
                     font-weight: 700;
-                    font-size: 1.1em; /* Menggunakan font size 1.1em yang stabil */
+                    font-size: 1.1em; 
                 }
                 .item h3 a:hover {
                     text-decoration: underline;
@@ -147,7 +142,7 @@ module.exports = async (req, res) => {
                 .image-container { 
                     flex-shrink: 0; 
                     width: 140px; 
-                    height: 90px; /* Menggunakan dimensi gambar yang lebih aman */
+                    height: 90px; 
                 }
                 .image-container img {
                     width: 100%;
