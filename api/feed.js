@@ -229,7 +229,8 @@ module.exports = async (req, res) => {
 	};
 </script>
 <script type="text/javascript" src="//www.highperformanceformat.com/3d7839634dd1ac154d8b6c75e8900d36/invoke.js"></script>
-        </html>
+        <meta name="monetag" content="1b949bb2ec11c7b38b30da69aacf4401">
+		</html>
     `;
 
     // Set Vercel Cache Headers
